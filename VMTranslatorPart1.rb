@@ -102,24 +102,24 @@ class Code
     # assembly code for two operand stack arithmetic
     @a2 =
       "@SP//two_operand_stack_arithmetic
-    M=M-1
-    @SP
-    A=M
-    D=M
-    @R13
-    M=D
-    @SP
-    M=M-1
-    @SP
-    A=M
-    D=M
-    @R13
-    #{AC[@syms[0]]}
-    @SP
-    A=M
-    M=D
-    @SP
-    M=M+1\n".delete(' ')
+      M=M-1
+      @SP
+      A=M
+      D=M
+      @R13
+      M=D
+      @SP
+      M=M-1
+      @SP
+      A=M
+      D=M
+      @R13
+      #{AC[@syms[0]]}
+      @SP
+      A=M
+      M=D
+      @SP
+      M=M+1\n".delete(' ')
     # assembly code for one operand stack arithmetic
     @a1 =
       "@SP//one_operand_stack_arithmetic
@@ -136,33 +136,33 @@ class Code
     # assembly code for comparison stack arithmetic
     @ac =
       "@SP//Comparison
-     M=M-1
-     @SP
-     A=M
-     D=M
-     @R13
-     M=D
-     @SP
-     M=M-1
-     @SP
-     A=M
-     D=M
-     @R13
-     D=D-M
-     @TRUE#{$i}
-     D;#{AC[@syms[0]]}
-     @SP
-     A=M
-     M=0
-     @RET#{$i}
-     0;JMP
-     (TRUE#{$i})
-     @SP
-     A=M
-     M=-1
-     (RET#{$i})
-     @SP
-     M=M+1\n".delete(' ')
+       M=M-1
+       @SP
+       A=M
+       D=M
+       @R13
+       M=D
+       @SP
+       M=M-1
+       @SP
+       A=M
+       D=M
+       @R13
+       D=D-M
+       @TRUE#{$i}
+       D;#{AC[@syms[0]]}
+       @SP
+       A=M
+       M=0
+       @RET#{$i}
+       0;JMP
+       (TRUE#{$i})
+       @SP
+       A=M
+       M=-1
+       (RET#{$i})
+       @SP
+       M=M+1\n".delete(' ')
 
     # asm code for pop commands in virtual memory segments
     @pop =

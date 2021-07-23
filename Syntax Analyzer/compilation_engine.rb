@@ -260,7 +260,7 @@ class Compilation
             comp_expression
             comp_line   # ']'
             return
-        when "("
+        when "(", "."
             comp_subroutine_call
             return 
         else 

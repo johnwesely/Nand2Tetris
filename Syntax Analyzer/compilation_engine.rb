@@ -18,7 +18,6 @@ class Compilation
   def comp_class
     @xml += '<class>  '
     while @i < @tokens.length
-      puts "identifier: #{@tokens[@i].val}"
       case @tokens[@i].val
       when 'static', 'field'
         comp_class_var_dec
@@ -112,8 +111,6 @@ class Compilation
   def comp_statements
     @xml += '<statements>  '
     loop do
-      puts "statement type: #{@tokens[@i].val}"
-      sleep(0.1)
       case @tokens[@i].val
       when 'let'
         comp_let_statements

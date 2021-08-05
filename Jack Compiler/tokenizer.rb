@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # converts a single .jack file into an array of tokens
 class Tokenizer
   # symbol and keyword sets
@@ -21,7 +23,7 @@ class Tokenizer
     # else append current as appropriate type to output and char to output
     # as Symbol
     input.each do |char|
-      if quote && !(char == '"')
+      if quote && char != '"'
         current += char
         next
       end
@@ -55,7 +57,7 @@ class Tokenizer
   # creates new token of appropriate type
   def self.create_token(string)
     # IntConstant
-    return IntConstant.new(string) if (string[0].to_i > 0) || (string[0] == '0')
+    return IntConstant.new(string) if string[0].to_i.positive? || (string[0] == '0')
     # Keyword
     return Keyword.new(string) if KEYWORD.include?(string)
 
@@ -71,7 +73,7 @@ class Tokenizer
         out.append token
         next
       end
-      out.append token if token.val.length > 0
+      out.append token if token.val.length.positive?
     end
     out
   end

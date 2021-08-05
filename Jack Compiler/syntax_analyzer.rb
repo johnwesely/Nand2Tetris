@@ -22,7 +22,7 @@ class Analyzer
 
   # select .jack files from directory, compile each into .vm file for each
   # 
-  def self.(dir)
+  def self.compile_directory(dir)
     dir.each do |file|
       name = File.basename(file).split('.')[0]
       ext = File.basename(file).split('.')[1]

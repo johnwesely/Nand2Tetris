@@ -1,12 +1,11 @@
-# frozen_string_literal: true
-
+require 'set'
 # converts a single .jack file into an array of tokens
 class Tokenizer
   # symbol and keyword sets
-  SYMBOL = Set['{', '}', '(', ')', '[', ']', '.', ',', ';', '+',
+  SYMBOL = Set.new ['{', '}', '(', ')', '[', ']', '.', ',', ';', '+',
                '-', '*', '/', '&', '|', '<', '>', '=', '~']
 
-  KEYWORD = Set['class', 'constructor', 'function', 'method', 'field', 'static',
+  KEYWORD = Set.new ['class', 'constructor', 'function', 'method', 'field', 'static',
                 'var', 'int', 'char', 'boolean', 'void', 'true', 'false', 'null',
                 'this', 'let', 'do', 'if', 'else', 'while', 'return']
 
@@ -23,7 +22,7 @@ class Tokenizer
     # else append current as appropriate type to output and char to output
     # as Symbol
     input.each do |char|
-      if quote && char != '"'
+      if quote && !(char == '"')
         current += char
         next
       end
@@ -32,7 +31,6 @@ class Tokenizer
         next
       end
       if quote && (char == '"')
-        puts "/#{current}/"
         output.append(StringConstant.new(current))
         current = ''
         quote = false
@@ -57,7 +55,7 @@ class Tokenizer
   # creates new token of appropriate type
   def self.create_token(string)
     # IntConstant
-    return IntConstant.new(string) if string[0].to_i.positive? || (string[0] == '0')
+    return IntConstant.new(string) if (string[0].to_i > 0) || (string[0] == '0')
     # Keyword
     return Keyword.new(string) if KEYWORD.include?(string)
 
@@ -73,7 +71,7 @@ class Tokenizer
         out.append token
         next
       end
-      out.append token if token.val.length.positive?
+      out.append token if token.val.length > 0
     end
     out
   end

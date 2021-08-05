@@ -125,7 +125,6 @@ class Compilation
 
   def comp_subroutine_body
     @i += 1
-    puts @tokens[@i].val
     while @i < @tokens.length
       case @tokens[@i].val
       when '}'

@@ -1,0 +1,78 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+
+  static Array ram, heap;
+  static int freeList;
+
+    /** Initializes the class. */
+    function void init() {
+      let ram = 0;
+      let heap = 2048;
+      let heap[0] = 0;
+      let heap[1] = 14335;
+      let freeList = 2048;
+
+      return;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+      return ram[address];
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+      let ram[address] = value;
+      return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+      var int firstFit, block;
+
+      let firstFit = Memory.findFirstFit((size + 2), freeList); 
+      // block address
+      let block = (firstFit + 1 + ram[firstFit + 1]) - size;
+      // set block size
+      let ram[block - 1] = size;
+      // adjust parent block length 
+      let ram[firstFit + 1] = ram[firstFit + 1] - (size + 2);
+      
+      return block;
+    }
+    
+    // first fit search
+    function int findFirstFit(int size, int list) {
+      // if block is large enough return block
+      if (size < ram[list + 1]) {
+        return list;
+      }
+      // if block.next is not null, search next block in list
+      if (ram[list] > 0) {
+        return Memory.findFirstFit(size, ram[list]);
+      }
+      // if end of list is reached, return error code. 
+      do Sys.error(69);
+      return 69;
+    } 
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+      // set next pointer to previous head of list
+      let ram[o - 2] = freeList; 
+      // set freeList to point to new head of list
+      let freeList = o - 2; 
+      return; 
+    }    
+}
